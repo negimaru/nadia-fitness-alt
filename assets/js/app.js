@@ -9,7 +9,11 @@
   if (!NF) return;
   var S = NF.studio;
   var script = document.currentScript;
-  var BASE = script ? script.src.replace(/assets\/js\/app\.js.*$/, '') : '/';
+  // Site root as a path RELATIVE to the current page ('./', '../', …), so links stay valid on any host
+  // and in pre-rendered HTML (tools/prerender.py)
+  var basePath = script ? new URL(script.src).pathname.replace(/assets\/js\/app\.js.*$/, '') : '/';
+  var rest = location.pathname.indexOf(basePath) === 0 ? location.pathname.slice(basePath.length) : null;
+  var BASE = rest === null ? basePath : (rest.split('/').length > 1 ? new Array(rest.split('/').length).join('../') : './');
   var PAGE = document.body.getAttribute('data-page') || '';
   var params = new URLSearchParams(location.search);
 
@@ -102,6 +106,7 @@
       '</div>' +
       '<div class="wrap foot-legal"><p>© <span>' + new Date().getFullYear() + '</span> ' + S.name + ' · ' + S.locality + '</p>' +
       '<p><a href="' + BASE + 'aviso-legal/">Aviso legal</a> · <a href="' + BASE + 'privacidad/">Privacidad</a> · Propuesta de diseño v2</p></div>';
+    Array.prototype.forEach.call(document.querySelectorAll('.callbar'), function (old) { old.remove(); });
     var bar = el('nav', { 'class': 'callbar', 'aria-label': 'Contacto rápido' });
     bar.innerHTML = '<a class="callbar-call" href="' + LINKS.tel + '">' + I_PHONE + 'Llamar</a><a class="callbar-wa" href="' + LINKS.whatsapp + '" target="_blank" rel="noopener">WhatsApp</a>';
     slot.parentNode.insertBefore(bar, slot.nextSibling);
@@ -109,6 +114,7 @@
 
   // ---------- components ----------
   var R = {};
+  var ttCount = 0;
 
   // Home: compact ruled list linking to the class page
   R['class-list'] = function (slot) {
@@ -132,7 +138,8 @@
   // Classes page: one numbered section per class
   R['class-detail'] = function (slot) {
     NF.classes.forEach(function (c, i) {
-      var media = el('img', { 'class': 'cd-photo' + (c.placeholder ? ' is-placeholder' : ''), src: BASE + 'assets/img/' + c.photo + (c.placeholder ? '?v=1' : ''), alt: c.placeholder ? '' : c.photoAlt, width: c.placeholder ? 1200 : 840, height: c.placeholder ? 750 : 840, loading: i > 1 ? 'lazy' : null });
+      var media = el('img', { 'class': 'cd-photo' + (c.placeholder ? ' is-placeholder' : ''), src: BASE + 'assets/img/' + c.photo + (c.placeholder ? '?v=1' : ''), alt: c.placeholder ? '' : c.photoAlt,
+        srcset: c.placeholder ? null : BASE + 'assets/img/' + c.photo.replace('.webp', '-480.webp') + ' 480w, ' + BASE + 'assets/img/' + c.photo + ' 840w', sizes: c.placeholder ? null : '(max-width: 860px) 100vw, 420px', width: c.placeholder ? 1200 : 840, height: c.placeholder ? 750 : 840, loading: i > 1 ? 'lazy' : null });
       slot.appendChild(el('article', { 'class': 'cd', id: c.id }, [
         el('span', { 'class': 'cd-num', text: (i + 1 < 10 ? '0' : '') + (i + 1) }),
         el('div', { 'class': 'cd-main' }, [
@@ -185,10 +192,34 @@
       tbody.appendChild(el('tr', null, [el('th', { scope: 'row', text: slotName })].concat(cells)));
     });
     table.appendChild(tbody);
+    // Mobile: one tab per day (opens on today; Monday at weekends), arrow keys move between days
+    var uid = 'tt' + (++ttCount);
+    var weekday = new Date().getDay();
+    var todayIdx = weekday >= 1 && weekday <= 5 ? weekday - 1 : -1;
+    var tabs = el('div', { 'class': 'tt-tabs', role: 'tablist', 'aria-label': 'Día de la semana' });
+    var tabButtons = [], dayEls = [];
     var days = el('div', { 'class': 'tt-days' }, NF.days.map(function (d, i) {
       var list = NF.sessions.filter(function (s) { return s.day === i; }).sort(byTime);
-      return el('div', { 'class': 'tt-day' }, [el('h3', { text: d }), el('ul', null, list.map(item))]);
+      var t = el('button', { type: 'button', role: 'tab', id: uid + '-t' + i, 'aria-controls': uid + '-p' + i, 'class': 'tt-tab' },
+        [el('b', { text: d.slice(0, 3) }), el('span', { text: i === todayIdx ? 'Hoy' : list.length + ' clases' })]);
+      t.addEventListener('click', function () { showDay(i); });
+      t.addEventListener('keydown', function (e) {
+        var step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!step) return;
+        e.preventDefault();
+        var n = (i + step + NF.days.length) % NF.days.length;
+        showDay(n); tabButtons[n].focus();
+      });
+      tabButtons.push(t); tabs.appendChild(t);
+      var panel = el('div', { 'class': 'tt-day', id: uid + '-p' + i, role: 'tabpanel', 'aria-labelledby': uid + '-t' + i }, [el('h3', { text: d }), el('ul', null, list.map(item))]);
+      dayEls.push(panel);
+      return panel;
     }));
+    function showDay(i) {
+      tabButtons.forEach(function (t, k) { t.setAttribute('aria-selected', String(k === i)); t.tabIndex = k === i ? 0 : -1; });
+      dayEls.forEach(function (p, k) { p.classList.toggle('is-active', k === i); });
+    }
+    showDay(todayIdx >= 0 ? todayIdx : 0);
 
     if (withFilters) {
       var status = el('p', { 'class': 'sr-only', 'aria-live': 'polite' });
@@ -198,6 +229,7 @@
         var n = 0;
         items.forEach(function (li) { var on = !!id && li.getAttribute('data-class') === id; li.classList.toggle('is-on', on); if (on) n++; });
         slot.classList.toggle('is-filtering', !!id);
+        dayEls.forEach(function (p) { p.classList.toggle('has-on', !!p.querySelector('.is-on')); });
         buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-class') === id)); });
         status.textContent = id ? classById(id).name + ': ' + (n / 2) + ' sesiones a la semana' : '';
       }
@@ -213,6 +245,7 @@
       setTimeout(function () { select(pre && classById(pre) ? pre : ''); }, 0);
     }
     slot.appendChild(table);
+    slot.appendChild(tabs);
     slot.appendChild(days);
   };
 
@@ -262,6 +295,30 @@
     document.addEventListener('visibilitychange', tick);
   };
 
+  // "¿Atendemos llamadas ahora?" from NF.callHours; suggests WhatsApp when the phone is not attended
+  R['call-status'] = function (slot) {
+    function render() {
+      var now = new Date(), d = now.getDay() - 1, m = now.getHours() * 60 + now.getMinutes();
+      var today = NF.callHours.filter(function (c) { return c.day === d; })[0];
+      var open = today && m >= minutes(today.from) && m < minutes(today.to);
+      var text;
+      if (open) text = 'Ahora atendemos llamadas, hasta las ' + today.to + '.';
+      else if (today && m < minutes(today.from)) text = 'Hoy atendemos llamadas de ' + today.from + ' a ' + today.to + '.';
+      else {
+        var next = null;
+        for (var k = 1; k <= 7 && !next; k++) { var dd = (now.getDay() - 1 + k + 7) % 7; next = NF.callHours.filter(function (c) { return c.day === dd; })[0]; }
+        text = 'Ahora no atendemos llamadas. Llámanos ' + (next.day === now.getDay() ? 'mañana' + (now.getDay() === 0 ? ' lunes' : '') : 'el ' + NF.days[next.day].toLowerCase())   /* tomorrow's index is today's getDay() */ + ' de ' + next.from + ' a ' + next.to + ', o escríbenos por WhatsApp.';
+      }
+      slot.className = 'call-status' + (open ? ' is-open' : '');
+      slot.innerHTML = '';
+      slot.appendChild(el('span', { 'class': 'call-dot', 'aria-hidden': 'true' }));
+      slot.appendChild(document.createTextNode(text));
+      if (!open) { slot.appendChild(document.createTextNode(' ')); slot.appendChild(el('a', { href: LINKS.whatsapp, target: '_blank', rel: 'noopener' }, ['Abrir WhatsApp', el('span', { 'class': 'sr-only', text: ' (se abre en otra pestaña)' })])); }
+    }
+    render();
+    setInterval(function () { if (!document.hidden) render(); }, 60000);
+  };
+
   R.calls = function (slot) {
     var t = el('table', { 'class': 'calls' }, [el('tbody', null, NF.callHours.map(function (c) {
       return el('tr', null, [el('th', { scope: 'row', text: NF.days[c.day] }), el('td', { text: c.from + '–' + c.to })]);
@@ -309,6 +366,7 @@
       openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: times[0].start.padStart(5, '0'), closes: BINDS.lastEnd.padStart(5, '0') }],
       makesOffer: NF.classes.map(function (c) { return { '@type': 'Offer', itemOffered: { '@type': 'Service', name: c.name, description: c.summary } }; })
     };
+    Array.prototype.forEach.call(document.querySelectorAll('script[type="application/ld+json"]'), function (old) { old.remove(); });
     document.head.appendChild(el('script', { type: 'application/ld+json', text: JSON.stringify(data) }));
   }
 
@@ -368,9 +426,10 @@
   if (footer) renderFooter(footer);
   Array.prototype.forEach.call(document.querySelectorAll('[data-render]'), function (slot) {
     var fn = R[slot.getAttribute('data-render')];
-    if (fn) fn(slot);
+    if (fn) { slot.innerHTML = ''; fn(slot); }   // pages may arrive pre-rendered (tools/prerender.py): always render fresh from data.js
   });
   bindAll(document);
+  Array.prototype.forEach.call(document.querySelectorAll('[data-print]'), function (b) { b.addEventListener('click', function () { window.print(); }); });
   // Links that open a new tab say so to screen readers
   Array.prototype.forEach.call(document.querySelectorAll('a[target="_blank"]'), function (a) {
     if (!a.querySelector('.sr-only')) a.appendChild(el('span', { 'class': 'sr-only', text: ' (se abre en otra pestaña)' }));
