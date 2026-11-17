@@ -61,8 +61,12 @@ def main():
                              capture_output=True, text=True, timeout=60).stdout
         if 'class="wrap foot-grid"' not in out:          # app.js ran: the real footer is there
             raise SystemExit(f"Rendering failed for {page}")
+        html = clean(out)
+        if page == "404.html":
+            # GitHub Pages serves 404.html at any missing URL: links must be absolute site paths
+            html = re.sub(r'(href|src)="\./', rf'\1="/{SITE}/', html)
         with open(os.path.join(ROOT, page), "w", encoding="utf-8") as f:
-            f.write(clean(out))
+            f.write(html)
         print("pre-rendered", page)
     httpd.shutdown()
 
