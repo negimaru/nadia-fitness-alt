@@ -64,3 +64,20 @@ Dance = pink dot, Fitness = ink ring. Dark mode follows the OS (`prefers-color-s
 ## Copy
 
 Spanish, direct, second person (tú). No superlatives, no "the best studio". Say what, when, where and how to book.
+
+## Pages
+
+| Page | Content |
+|---|---|
+| `/` | Hero + live "Hoy" board, then the programme: 01 Clases (ruled list), 02 Horario (filterable), 03 Nadia, 04 Apúntate (phone as display type) |
+| `/clases/` | One numbered section per class: who it is for, description, times, "Reservar plaza" (→ contact with the class preselected), "Ver en el horario" (→ timetable filtered) |
+| `/horario/` | "Hoy" board + full timetable with class filters; `?clase=<id>` preselects a class |
+| `/quien-soy/` | Nadia, Google rating, the classes she teaches |
+| `/contacto/` | Phone, call hours, WhatsApp form (`?clase=<id>` preselects), address and map, three steps |
+| `/aviso-legal/`, `/privacidad/` | Legal prose; owner name, NIF and email come from data and show a dashed placeholder while empty |
+
+## One source of truth
+
+Everything that repeats across pages or is likely to change lives in **`assets/js/data.js`** (`window.NF`): classes, sessions, phone, WhatsApp, address, geo, call hours, rating, social links, season, legal owner data. `assets/js/app.js` renders from it the header, footer, mobile call bar, class lists, timetable, "Hoy" board, call hours, form options, every `[data-bind]` text, every `[data-href]` link and the JSON-LD. Pages hold only their own prose and empty slots.
+
+Exceptions, because crawlers and link previews do not run JavaScript: each page's `<title>`, meta description and Open Graph tags are static. Review them when the season or the hours change.
