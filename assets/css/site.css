@@ -52,7 +52,7 @@ p { margin: 0; }
 
 /* ---------- Hero: headline left, live board right ---------- */
 .hero { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: end; padding-top: 88px; padding-bottom: var(--sec); }
-.hero h1 { font: 400 112px/.9 var(--display); text-transform: uppercase; margin: 16px 0 28px; letter-spacing: .005em; }
+.hero h1 { font: 400 112px/1.06 var(--display); text-transform: uppercase; margin: 16px 0 28px; letter-spacing: .005em; }
 .hero h1 em { font-style: normal; color: var(--pink); }
 .lead { font-size: 20px; line-height: 1.55; color: var(--muted); max-width: 34ch; margin-bottom: 28px; }
 
@@ -60,7 +60,7 @@ p { margin: 0; }
 .today .label { display: flex; align-items: center; gap: 8px; }
 .live { width: 8px; height: 8px; border-radius: 50%; background: var(--pink); animation: pulse 2s ease-in-out infinite; }
 @keyframes pulse { 50% { opacity: .25; } }
-.today-date { font: 400 44px/1 var(--display); text-transform: uppercase; margin: 10px 0 14px; }
+.today-date { font: 400 44px/1.1 var(--display); text-transform: uppercase; margin: 10px 0 14px; }
 .today-list { list-style: none; margin: 0; padding: 0; }
 .today-list li { display: grid; grid-template-columns: 112px 1fr auto; gap: 12px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--rule); }
 .today-list time { font-weight: 600; white-space: nowrap; }
@@ -77,7 +77,7 @@ p { margin: 0; }
 .sec { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: var(--gutter); padding-top: 28px; padding-bottom: var(--sec); position: relative; }
 .sec::before { content: ""; position: absolute; left: var(--gutter); right: var(--gutter); top: 0; border-top: 1px solid var(--ink); }
 .sec-label { position: sticky; top: 104px; align-self: start; display: grid; gap: 10px; padding-right: 24px; }
-.sec-label h2 { font: 400 72px/.9 var(--display); text-transform: uppercase; }
+.sec-label h2 { font: 400 72px/1 var(--display); text-transform: uppercase; }
 .sec-label p { color: var(--muted); font-size: 15px; max-width: 26ch; }
 .sec-label .legend { display: flex; gap: 16px; font-weight: 600; color: var(--ink); }
 .sec-label .legend > span { display: inline-flex; align-items: center; gap: 8px; }
@@ -87,7 +87,7 @@ p { margin: 0; }
 .cl-row { display: grid; grid-template-columns: 48px minmax(0, 1fr) minmax(0, 260px) 88px; gap: 20px; align-items: start; padding: 22px 0; border-bottom: 1px solid var(--rule); }
 .cl-row:first-child { padding-top: 6px; }
 .cl-num { font-weight: 600; color: var(--muted); padding-top: 10px; }
-.cl-name { font: 400 40px/1 var(--display); text-transform: uppercase; display: flex; align-items: center; gap: 12px; transition: color .15s; }
+.cl-name { font: 400 40px/1.1 var(--display); text-transform: uppercase; display: flex; align-items: center; gap: 12px; transition: color .15s; }
 .cl-row:hover .cl-name { color: var(--pink-text); }
 .cl-desc { color: var(--muted); margin-top: 8px; max-width: 52ch; font-size: 16px; }
 .cl-meta { padding-top: 6px; }
@@ -171,7 +171,7 @@ address { font-style: normal; }
   .cl-photo { grid-column: 2; width: 100%; height: 180px; margin-top: 8px; }
   .tt { display: none; }
   .tt-days { display: grid; gap: 28px; }
-  .tt-day h3 { font: 400 28px/1 var(--display); text-transform: uppercase; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 2px solid var(--ink); }
+  .tt-day h3 { font: 400 28px/1.1 var(--display); text-transform: uppercase; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 2px solid var(--ink); }
   .tt-item { font-size: 16px; }
   .nadia { grid-template-columns: 1fr; gap: 24px; }
   .nadia .big { font-size: 21px; }

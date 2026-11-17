@@ -43,7 +43,8 @@ Dance = pink dot, Fitness = ink ring. Dark mode follows the OS (`prefers-color-s
 
 ## Type
 
-- Display: **Anton**, uppercase, tight leading (0.9), never italic, never letter-spaced wider than 0.01em.
+- Display: **Anton**, uppercase, never italic, never letter-spaced wider than 0.01em.
+- Leading: **never below 1.05 on any display text that can wrap.** Spanish capitals carry accents (JÓVENES, MIÉRCOLES, APÚNTATE) and Anton's accents rise well above cap height; at 0.9 they collide with the line above. Single-line numerals (the phone) may go to 0.9.
 - Text: **Instrument Sans** 400/500/600/700. Body 17px/1.6. Labels 12px, 600, uppercase, 0.14em tracking.
 - Scale (desktop / mobile): h1 112/60, h2 72/44, h3 32/26, lead 20/18.
 
