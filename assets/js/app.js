@@ -78,7 +78,8 @@
   // ---------- layout: header, footer, mobile call bar ----------
   var NAV = [['clases/', 'Clases'], ['horario/', 'Horario'], ['quien-soy/', 'Quién soy'], ['contacto/', 'Contacto']];
   function renderHeader(slot) {
-    var items = NAV.map(function (n, i) {
+    // "Inicio" first (unnumbered), then the numbered programme sections 01–04
+    var items = '<li><a href="' + BASE + '"' + (PAGE === '' ? ' aria-current="page"' : '') + '><span class="n n-blank" aria-hidden="true">00</span>Inicio</a></li>' + NAV.map(function (n, i) {
       var current = PAGE === n[0].replace('/', '');
       return '<li><a href="' + BASE + n[0] + '"' + (current ? ' aria-current="page"' : '') + '><span class="n" aria-hidden="true">0' + (i + 1) + '</span>' + n[1] + '</a></li>';
     }).join('');

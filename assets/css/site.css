@@ -285,10 +285,11 @@ address { font-style: normal; }
   html:not(.js) .burger, html:not(.js) .theme { display: none; }
   html:not(.js) .band ul { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-left: auto; font-size: 14px; }
   html:not(.js) .band-in { height: auto; min-height: 64px; padding-top: 8px; padding-bottom: 8px; }
-  .band ul.is-open { display: block; position: absolute; top: 64px; left: 0; right: 0; max-height: calc(100vh - 64px); overflow-y: auto; padding: 8px var(--gutter) 24px; background: var(--band); border-bottom: 1px solid #2b241f; }
+  .band ul.is-open { display: block; position: absolute; top: 64px; left: 0; right: 0; max-height: calc(100vh - 64px); overflow-y: auto; padding: 8px var(--gutter) calc(96px + env(safe-area-inset-bottom)); background: var(--band); border-bottom: 1px solid #2b241f; }
   .band ul.is-open li { border-bottom: 1px solid #2b241f; }
   .band ul.is-open a { display: flex; align-items: baseline; gap: 14px; padding: 14px 0; font: 400 40px/1.1 var(--display); text-transform: uppercase; }
   .band ul.is-open .n { display: inline; font: 600 12px/1 var(--text); letter-spacing: .14em; color: #A89E93; }
+  .band ul.is-open .n-blank { visibility: hidden; } /* keeps "Inicio" aligned with the numbered items */
   .band ul.is-open .menu-phone { display: block; border-bottom: 0; margin-top: 12px; }
   .band ul.is-open .menu-phone a { color: #FF4FA3; font-size: 44px; }
   .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 40px; }
