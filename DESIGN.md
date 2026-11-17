@@ -59,7 +59,7 @@ Dance = pink dot, Fitness = ink ring. Dark mode follows the OS (`prefers-color-s
 - **Rule list** (classes): one row per class — index number, name in Anton, audience tag, days/times right-aligned, short description. Hover: name turns pink.
 - **Timetable**: a plain table with hairlines; each session is text, not a card. Mobile: one list per day.
 - **Text link CTA**: underlined, with an arrow (→). One primary pink fill button per page at most (the sticky mobile call bar).
-- **Photos**: grayscale by default to sit on paper; never more than one per section.
+- **Photos**: always in colour. A grayscale portrait on paper next to a big name reads as an obituary (client feedback). Only the map stays grayscale. Never more than one photo per section.
 
 ## Copy
 
