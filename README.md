@@ -1,22 +1,35 @@
-# Nadia Fitness Dance Studio — propuesta alternativa
+# Nadia Fitness Dance Studio — propuesta v2 (web completa)
 
-Versión alternativa de la web de [Nadia Fitness Dance Studio](https://negimaru.github.io/nadia-fitness/), diseñada para no parecer una web genérica hecha con IA. Las reglas de diseño están en [`DESIGN.md`](DESIGN.md).
+Web de [Nadia Fitness Dance Studio](https://negimaru.github.io/nadia-fitness/) con dirección «programa impreso»: papel, tinta, un solo rosa plano y tipografía de cartel. Las reglas están en [`DESIGN.md`](DESIGN.md) y [`CLAUDE.md`](CLAUDE.md).
 
-- **Dirección:** programa impreso de una escuela de baile. Papel cálido, tinta negra, líneas finas, un solo color de acento (rosa) y tipografía de cartel (Anton + Instrument Sans).
-- **Elemento propio:** «Hoy en el estudio». La portada muestra las clases de hoy, con la que está en curso y la siguiente, a partir del horario real. En fin de semana, o cuando ya han terminado las clases del día, muestra el siguiente día lectivo.
-- **Sin rasgos de plantilla:** sin degradados ni brillos, sin tarjetas, sin hero centrado con dos botones, sin animaciones al hacer scroll y sin datos inventados.
+**Páginas:** Inicio · Clases · Horario · Quién soy · Contacto · Aviso legal · Privacidad · 404.
 
-Es una sola página (`index.html`) con secciones numeradas: 01 Clases, 02 Horario, 03 Nadia y 04 Apúntate. Lleva `noindex` para que Google no la confunda con la web actual. Los enlaces legales apuntan a la web actual.
+## Cómo se edita
+
+**Todo lo que se repite o cambia está en un solo archivo: `assets/js/data.js`.** Ahí van las clases, el horario, el teléfono, el WhatsApp, la dirección, el horario de llamadas, la valoración de Google, las redes, el curso y los datos de la titular para los textos legales. Al cambiar algo ahí se actualizan a la vez:
+
+- la tabla del horario y su versión para el móvil, con los filtros;
+- el panel «Hoy en el estudio»;
+- las fichas de clase y la lista de la portada;
+- el pie, la cabecera y la barra de Llamar/WhatsApp;
+- el formulario de contacto;
+- los textos legales;
+- los datos para Google (JSON-LD).
+
+Lo único que no se actualiza solo es el `<title>` y la descripción de cada página, que tienen que ser fijos para buscadores y vistas previas. Hay que revisarlos al cambiar de curso.
+
+Clases sin foto: `python3 tools/make_placeholders.py` genera la imagen de muestra a partir de `data.js`. Para poner la foto real, sustituye `assets/img/clases/<id>.webp` y pon `"placeholder": false` en esa clase.
 
 ```
-index.html              Página
-DESIGN.md               Reglas de diseño (colores, tipografía, espaciado, componentes)
+assets/js/data.js       Datos (única fuente)
+assets/js/app.js        Pinta todo a partir de los datos + tema, menú y formulario
 assets/css/site.css     Estilos
-assets/css/fonts.css    Fuentes servidas desde la propia web (assets/fonts/)
-assets/js/today.js      Panel «Hoy en el estudio» (lee el horario de #schedule-data)
-assets/js/menu.js       Menú hamburguesa en el móvil
+tools/make_placeholders.py
+sitemap.xml, robots.txt, site.webmanifest
 ```
 
-El horario está dos veces: en la tabla HTML y en el JSON `#schedule-data` que usa el panel «Hoy». Si cambia una clase, hay que actualizar los dos.
+## SEO
+
+Cada página tiene su título, descripción, canonical, Open Graph y Twitter card. El JSON-LD (dirección, coordenadas, horario y clases) se genera desde `data.js`, y además hay sitemap, robots, manifest e iconos. Mientras sea una propuesta, todas las páginas llevan `noindex`: basta con quitar esa línea cuando sustituya a la web actual.
 
 Para probarla en local: `python3 -m http.server` y abre `http://localhost:8000`.
