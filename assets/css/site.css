@@ -71,7 +71,7 @@ p { margin: 0; }
 
 .today { border-top: 4px solid var(--ink); padding-top: 18px; }
 .today .label { display: flex; align-items: center; gap: 8px; }
-.live { width: 8px; height: 8px; border-radius: 50%; background: var(--pink); animation: pulse 2s ease-in-out infinite; }
+.live { width: 8px; height: 8px; border-radius: 50%; background: var(--pink); animation: pulse 2s ease-in-out 2; } /* stops after 4s (WCAG 2.2.2) */
 @keyframes pulse { 50% { opacity: .25; } }
 .today-date { font: 400 44px/1.1 var(--display); text-transform: uppercase; margin: 10px 0 14px; }
 .today-list { list-style: none; margin: 0; padding: 0; }
@@ -169,6 +169,7 @@ address { font-style: normal; }
 .foot-calls li { display: flex; justify-content: space-between; gap: 12px; max-width: 220px; }
 .foot-calls li span:first-child { color: var(--ink); }
 .foot a { color: var(--ink); text-decoration: none; }
+.foot p a { text-decoration: underline; text-decoration-color: var(--muted); text-underline-offset: 3px; } /* links inside text must not rely on colour */
 .foot a:hover { color: var(--pink-text); }
 .foot-legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-top: 16px; padding-bottom: 40px; border-top: 1px solid var(--rule); font-size: 14px; }
 
@@ -218,6 +219,12 @@ address { font-style: normal; }
 .form { display: grid; gap: 14px; align-content: start; }
 .field { display: grid; gap: 4px; }
 .field label { font-weight: 600; font-size: 15px; }
+.field-error { margin: 0; font-weight: 600; font-size: 14px; color: var(--pink-text); }
+.field input[aria-invalid="true"] { border-color: var(--pink); border-width: 2px; }
+/* Fallback header/footer shown until (or if) app.js renders the real ones */
+.nav-fallback { margin-left: auto; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.nav-fallback a { color: var(--band-ink); font-weight: 600; }
+.foot-fallback { padding-top: 24px; padding-bottom: 40px; }
 .opt { font-weight: 400; color: var(--muted); }
 .field input, .field select, .field textarea { min-height: 44px; padding: 8px 12px; background: transparent; color: var(--ink); border: 1px solid var(--muted); border-radius: 3px; font: 400 16px/1.4 var(--text); }
 .field select option { color: #16120F; }
@@ -248,7 +255,7 @@ address { font-style: normal; }
 /* ---------- Mobile ---------- */
 @media (max-width: 860px) {
   :root { --gutter: 16px; --sec: 64px; }
-  html { scroll-padding-top: 72px; }
+  html { scroll-padding-top: 72px; scroll-padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
   .band-in { height: 64px; gap: 10px; }
   .brand img { height: 42px; }
   .band-phone { display: none; }
@@ -270,7 +277,7 @@ address { font-style: normal; }
   .today-date { font-size: 36px; }
   .today-list li { grid-template-columns: 104px 1fr auto; gap: 8px; }
   .today-list time { font-size: 15px; }
-  .sec { grid-template-columns: 1fr; gap: 20px; padding-top: 20px; }
+  .sec { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-top: 20px; }
   .sec-label { position: static; padding-right: 0; }
   .sec-label h2 { font-size: 44px; }
   .cl-row { grid-template-columns: 32px minmax(0, 1fr); gap: 4px 12px; }
@@ -284,7 +291,7 @@ address { font-style: normal; }
   .tt-item { font-size: 16px; }
   .nadia { grid-template-columns: 1fr; gap: 24px; }
   .nadia .big { font-size: 21px; }
-  .steps, .join-grid { grid-template-columns: 1fr; gap: 20px; }
+  .steps, .join-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .map { aspect-ratio: 4 / 3; }
   .foot-grid { grid-template-columns: 1fr; gap: 24px; }
   .foot-legal { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
@@ -293,7 +300,7 @@ address { font-style: normal; }
   .band nav { margin-left: auto; }
   .page-hero { padding-top: 40px; padding-bottom: 32px; }
   .page-hero h1 { font-size: 56px; }
-  .page-hero-split, .where { grid-template-columns: 1fr; gap: 32px; }
+  .page-hero-split, .where { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .cd { grid-template-columns: 32px minmax(0, 1fr); gap: 4px 12px; padding: 32px 0; }
   .cd-main, .cd-photo { grid-column: 2; }
   .cd-photo { margin-top: 18px; }
