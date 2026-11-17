@@ -132,7 +132,7 @@
   // Classes page: one numbered section per class
   R['class-detail'] = function (slot) {
     NF.classes.forEach(function (c, i) {
-      var media = el('img', { 'class': 'cd-photo' + (c.placeholder ? ' is-placeholder' : ''), src: BASE + 'assets/img/' + c.photo + (c.placeholder ? '?v=1' : ''), alt: c.photoAlt, width: c.placeholder ? 1200 : 840, height: c.placeholder ? 750 : 840, loading: i > 1 ? 'lazy' : null });
+      var media = el('img', { 'class': 'cd-photo' + (c.placeholder ? ' is-placeholder' : ''), src: BASE + 'assets/img/' + c.photo + (c.placeholder ? '?v=1' : ''), alt: c.placeholder ? '' : c.photoAlt, width: c.placeholder ? 1200 : 840, height: c.placeholder ? 750 : 840, loading: i > 1 ? 'lazy' : null });
       slot.appendChild(el('article', { 'class': 'cd', id: c.id }, [
         el('span', { 'class': 'cd-num', text: (i + 1 < 10 ? '0' : '') + (i + 1) }),
         el('div', { 'class': 'cd-main' }, [
@@ -256,8 +256,10 @@
         ]));
       });
     }
-    render();
-    setInterval(render, 60000);
+    function tick() { if (!document.hidden) render(); }   // no updates while the tab is not visible
+    tick();
+    setInterval(tick, 60000);
+    document.addEventListener('visibilitychange', tick);
   };
 
   R.calls = function (slot) {
@@ -337,10 +339,22 @@
   function setupForm() {
     var form = document.getElementById('contact-form');
     if (!form) return;
+    form.setAttribute('novalidate', '');
+    var nameInput = form.elements['contact-name'], nameError = document.getElementById('contact-name-error');
+    function clearNameError() { nameInput.removeAttribute('aria-invalid'); nameError.hidden = true; }
+    nameInput.addEventListener('input', function () { if (nameInput.value.trim()) clearNameError(); });
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      if (!nameInput.value.trim()) {
+        // Our own message next to the field, announced and focused
+        nameInput.setAttribute('aria-invalid', 'true');
+        nameError.hidden = false;
+        nameInput.focus();
+        return;
+      }
+      clearNameError();
       var f = form.elements, c = classById(f['contact-class'].value);
-      var text = '¡Hola! Soy ' + (f['contact-name'].value.trim() || '[nombre]') + '. ' + (c ? 'Me interesa ' + c.name + '.' : 'Quiero información sobre las clases.');
+      var text = '¡Hola! Soy ' + f['contact-name'].value.trim() + '. ' + (c ? 'Me interesa ' + c.name + '.' : 'Quiero información sobre las clases.');
       if (f['contact-message'].value.trim()) text += ' ' + f['contact-message'].value.trim();
       if (f['contact-phone'].value.trim()) text += ' Mi teléfono: ' + f['contact-phone'].value.trim() + '.';
       window.open('https://wa.me/' + S.whatsapp + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
@@ -357,6 +371,10 @@
     if (fn) fn(slot);
   });
   bindAll(document);
+  // Links that open a new tab say so to screen readers
+  Array.prototype.forEach.call(document.querySelectorAll('a[target="_blank"]'), function (a) {
+    if (!a.querySelector('.sr-only')) a.appendChild(el('span', { 'class': 'sr-only', text: ' (se abre en otra pestaña)' }));
+  });
   jsonLd();
   setupTheme();
   setupBurger();
