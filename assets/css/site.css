@@ -3,7 +3,7 @@
 :root {
   --paper: #F3EEE6; --ink: #16120F; --muted: #5E554D; --rule: #D9D1C5;
   --pink: #D1006F; --pink-text: #B5005F; --on-pink: #FFFFFF;
-  --band: #16120F; --band-ink: #F3EEE6;
+  --band: #16120F; --band-ink: #F3EEE6; --ok: #2F8F4E;
   --display: "Anton", "Arial Narrow", sans-serif;
   --text: "Instrument Sans", system-ui, sans-serif;
   --wrap: 1240px; --gutter: 24px; --sec: 112px;
@@ -57,6 +57,7 @@ p { margin: 0; }
 .band-phone { font: 400 22px/1 var(--display); letter-spacing: .01em; padding-left: 28px; border-left: 1px solid #3a322c; }
 .band-phone:hover { color: #FF4FA3; }
 .band nav a[aria-current="page"] { color: #FF4FA3; }
+html:not(.js) .theme { display: none; }
 .theme { width: 40px; height: 40px; display: grid; place-items: center; flex: none; background: transparent; color: var(--band-ink); border: 1px solid #3a322c; border-radius: 3px; cursor: pointer; }
 .theme:hover { border-color: var(--band-ink); }
 .theme svg { width: 18px; height: 18px; display: block; }
@@ -69,7 +70,7 @@ p { margin: 0; }
 .hero h1 em { font-style: normal; color: var(--pink); }
 .lead { font-size: 20px; line-height: 1.55; color: var(--muted); max-width: 34ch; margin-bottom: 28px; }
 
-.today { border-top: 4px solid var(--ink); padding-top: 18px; }
+.today { border-top: 4px solid var(--pink); padding-top: 18px; }
 .today .label { display: flex; align-items: center; gap: 8px; }
 .live { width: 8px; height: 8px; border-radius: 50%; background: var(--pink); animation: pulse 2s ease-in-out 2; } /* stops after 4s (WCAG 2.2.2) */
 @keyframes pulse { 50% { opacity: .25; } }
@@ -98,6 +99,7 @@ p { margin: 0; }
 .sec-label { position: sticky; top: 104px; align-self: start; display: grid; gap: 10px; padding-right: 24px; }
 .sec-label h2 { font: 400 72px/1 var(--display); text-transform: uppercase; }
 .sec-label p { color: var(--muted); font-size: 15px; max-width: 26ch; }
+.sec-label > .label:first-child, .page-hero > .label:first-child, .page-hero-split .label:first-child { color: var(--pink-text); }
 .sec-label .legend { display: flex; gap: 16px; font-weight: 600; color: var(--ink); }
 .sec-label .legend > span { display: inline-flex; align-items: center; gap: 8px; }
 
@@ -123,7 +125,7 @@ p { margin: 0; }
 .tt td { vertical-align: top; padding: 14px 12px; border-bottom: 1px solid var(--rule); border-left: 1px solid var(--rule); }
 .tt ul, .tt-day ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .tt-item { font-size: 14px; line-height: 1.35; font-weight: 600; padding-left: 12px; border-left: 3px solid var(--pink); }
-.tt-item.tt-fit { border-left-color: var(--ink); }
+.tt-item.tt-fit { border-left-color: var(--ink); border-left-style: dashed; } /* fitness: shape, not only colour */
 .tt-item time { display: block; font-weight: 500; color: var(--muted); font-size: 13px; }
 .tt-item small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
 .tt-days { display: none; }
@@ -197,6 +199,7 @@ address { font-style: normal; }
 
 /* About: plain list */
 .nadia-sub { margin-top: 36px; }
+.notfound-links { max-width: 560px; margin-top: 24px; }
 .plain-list { list-style: none; margin: 10px 0 0; padding: 0; }
 .plain-list li { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-top: 1px solid var(--rule); }
 .plain-list a { font-weight: 600; text-decoration: none; }
@@ -213,6 +216,18 @@ address { font-style: normal; }
 .filter[aria-pressed="true"].f-fit::before { border-color: var(--paper); }
 .timetable .tt-item { transition: opacity .15s; }
 .timetable.is-filtering .tt-item:not(.is-on) { opacity: .2; }
+
+/* Call status: is the phone attended right now? */
+.call-status { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 0 0 28px; font-weight: 600; max-width: 62ch; }
+.call-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); flex: none; }
+.call-status.is-open .call-dot { background: var(--ok); }
+.call-status a { color: var(--pink-text); text-decoration: underline; }
+
+/* Timetable day tabs (mobile, JS only) */
+.tt-tabs { display: none; }
+.print-btn { display: none; }
+.js .print-btn { display: inline-flex; }
+.print-only { display: none; }
 
 /* Contact */
 .join-grid > div .label, .form .label { margin-bottom: 12px; }
@@ -266,6 +281,10 @@ address { font-style: normal; }
   .burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
   .burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   .band ul { display: none; }
+  /* Without JS (pre-rendered page) the burger cannot open: show the links instead */
+  html:not(.js) .burger, html:not(.js) .theme { display: none; }
+  html:not(.js) .band ul { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-left: auto; font-size: 14px; }
+  html:not(.js) .band-in { height: auto; min-height: 64px; padding-top: 8px; padding-bottom: 8px; }
   .band ul.is-open { display: block; position: absolute; top: 64px; left: 0; right: 0; max-height: calc(100vh - 64px); overflow-y: auto; padding: 8px var(--gutter) 24px; background: var(--band); border-bottom: 1px solid #2b241f; }
   .band ul.is-open li { border-bottom: 1px solid #2b241f; }
   .band ul.is-open a { display: flex; align-items: baseline; gap: 14px; padding: 14px 0; font: 400 40px/1.1 var(--display); text-transform: uppercase; }
@@ -287,6 +306,18 @@ address { font-style: normal; }
   .cl-photo { grid-column: 2; width: 100%; height: 180px; margin-top: 8px; }
   .tt { display: none; }
   .tt-days { display: grid; gap: 28px; }
+  .js .tt-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; position: sticky; top: 64px; z-index: 5; background: var(--paper); padding: 8px 0; margin-bottom: 16px; border-bottom: 2px solid var(--ink); }
+  .tt-tab { appearance: none; cursor: pointer; display: grid; justify-items: center; gap: 2px; padding: 8px 2px; background: transparent; color: var(--ink); border: 1px solid var(--rule); border-radius: 3px; font-family: var(--text); }
+  .tt-tab b { font: 400 22px/1.1 var(--display); text-transform: uppercase; }
+  .tt-tab span { font-size: 11px; color: var(--muted); }
+  .tt-tab[aria-selected="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .tt-tab[aria-selected="true"] span { color: var(--paper); }
+  .js .tt-day { display: none; }
+  .js .tt-day.is-active { display: block; }
+  .js .timetable.is-filtering .tt-tabs { display: none; }
+  .js .timetable.is-filtering .tt-day { display: none; }
+  .js .timetable.is-filtering .tt-day.has-on { display: block; }
+  .timetable.is-filtering .tt-days .tt-item:not(.is-on) { display: none; }
   .tt-day h3 { font: 400 28px/1.1 var(--display); text-transform: uppercase; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 2px solid var(--ink); }
   .tt-item { font-size: 16px; }
   .nadia { grid-template-columns: 1fr; gap: 24px; }
@@ -314,4 +345,23 @@ address { font-style: normal; }
   .callbar-call { background: #D1006F; color: #fff; }
   .callbar-wa { border: 1px solid #F3EEE6; color: #F3EEE6; }
   .callbar a:hover { color: inherit; }
+}
+
+/* ---------- Print: the timetable on one A4 sheet ---------- */
+@media print {
+  @page { size: A4 landscape; margin: 12mm; }
+  html, body { background: #fff !important; color: #000 !important; }
+  .band, .foot, .callbar, .filters, .today, .tt-tabs, .tt-days, .skip, .print-btn, .legend, .banner, .sec-plain > .lead { display: none !important; }
+  .print-only { display: block !important; }
+  .page-hero, .page-hero-split { display: block; padding: 0 0 6mm; border-bottom: 2px solid #000; }
+  .page-hero h1 { font-size: 30pt; margin: 2mm 0; }
+  .page-hero .lead { color: #000; max-width: none; margin: 0; font-size: 11pt; }
+  .sec-plain { padding-top: 6mm; }
+  .tt { display: table !important; font-size: 9pt; }
+  .tt thead th { font-size: 14pt; }
+  .tt-item { opacity: 1 !important; font-size: 9pt; break-inside: avoid; }
+  .tt-item.tt-dance { border-left-color: #000; }
+  .tt-item.tt-fit { border-left-style: dashed; }
+  .print-contact { margin-top: 6mm; font-size: 11pt; }
+  a { color: #000 !important; text-decoration: none !important; }
 }
