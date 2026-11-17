@@ -86,6 +86,12 @@ p { margin: 0; }
 .today-list .today-fallback { display: block; color: var(--muted); }
 .today-foot { margin-top: 14px; border-top: 1px solid var(--rule); padding-top: 12px; font-weight: 600; }
 
+/* Wide photo plate between sections (photos are grayscale, per DESIGN.md) */
+.banner { margin: 0 auto var(--sec); }
+.banner img { width: 100%; aspect-ratio: 16 / 5; object-fit: cover; object-position: 50% 40%; border-radius: 4px; filter: grayscale(1) contrast(1.05); }
+.banner-end { margin-top: var(--sec); margin-bottom: 0; }
+@media (max-width: 860px) { .banner img { aspect-ratio: auto; } }
+
 /* ---------- Numbered sections ---------- */
 .sec { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: var(--gutter); padding-top: 28px; padding-bottom: var(--sec); position: relative; }
 .sec::before { content: ""; position: absolute; left: var(--gutter); right: var(--gutter); top: 0; border-top: 1px solid var(--ink); }
