@@ -14,15 +14,18 @@
 <link rel="preload" href="assets/fonts/anton-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/instrument-sans-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/fonts.css?v=1">
-<link rel="stylesheet" href="assets/css/site.css?v=2">
+<link rel="stylesheet" href="assets/css/site.css?v=3">
 </head>
 <body>
 <a class="skip" href="#main">Saltar al contenido</a>
 <header class="band">
 <div class="wrap band-in">
 <a class="brand" href="#top"><img src="assets/img/logo.png" alt="Nadia Fitness Dance Studio" width="110" height="60"></a>
-<nav aria-label="Secciones"><ul>
-<li><a href="#clases">Clases</a></li><li><a href="#horario">Horario</a></li><li><a href="#nadia">Nadia</a></li><li><a href="#apuntate">Apúntate</a></li>
+<nav class="nav" aria-label="Secciones">
+<button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+<ul id="menu">
+<li><a href="#clases"><span class="n" aria-hidden="true">01</span>Clases</a></li><li><a href="#horario"><span class="n" aria-hidden="true">02</span>Horario</a></li><li><a href="#nadia"><span class="n" aria-hidden="true">03</span>Nadia</a></li><li><a href="#apuntate"><span class="n" aria-hidden="true">04</span>Apúntate</a></li>
+<li class="menu-phone"><a href="tel:+34654691336">654 691 336</a></li>
 </ul></nav>
 <a class="band-phone" href="tel:+34654691336">654 691 336</a>
 </div>
@@ -161,5 +164,6 @@
 
 <script type="application/json" id="schedule-data">[{"day": 1, "start": "9:30", "end": "10:30", "name": "PowerHIIT", "type": "fit", "note": "Entrenamiento funcional", "c": "powerhiit"}, {"day": 3, "start": "9:30", "end": "10:30", "name": "PowerHIIT", "type": "fit", "note": "Entrenamiento funcional", "c": "powerhiit"}, {"day": 4, "start": "9:30", "end": "10:30", "name": "PowerHIIT", "type": "fit", "note": "Entrenamiento funcional", "c": "powerhiit"}, {"day": 3, "start": "12:00", "end": "13:00", "name": "Aquafitness", "type": "fit", "note": "", "c": "aquafitness"}, {"day": 4, "start": "12:00", "end": "13:00", "name": "Aquafitness", "type": "fit", "note": "", "c": "aquafitness"}, {"day": 0, "start": "16:30", "end": "17:30", "name": "Grupo Dance Intermedio 1", "type": "dance", "note": "", "c": "dance-intermedio"}, {"day": 1, "start": "16:30", "end": "17:30", "name": "Grupo Dance Baby", "type": "dance", "note": "", "c": "dance-baby"}, {"day": 2, "start": "16:30", "end": "17:30", "name": "Grupo Dance Intermedio 1", "type": "dance", "note": "", "c": "dance-intermedio"}, {"day": 3, "start": "16:30", "end": "17:30", "name": "Grupo Dance Baby", "type": "dance", "note": "", "c": "dance-baby"}, {"day": 4, "start": "16:30", "end": "17:30", "name": "Grupo Dance Avanzado", "type": "dance", "note": "", "c": "dance-avanzado"}, {"day": 0, "start": "17:30", "end": "18:30", "name": "Grupo Dance Intermedio 2", "type": "dance", "note": "", "c": "dance-intermedio"}, {"day": 1, "start": "17:30", "end": "18:30", "name": "Grupo Dance Avanzado", "type": "dance", "note": "", "c": "dance-avanzado"}, {"day": 2, "start": "17:30", "end": "18:30", "name": "Grupo Dance Intermedio 2", "type": "dance", "note": "", "c": "dance-intermedio"}, {"day": 4, "start": "17:30", "end": "18:30", "name": "WeDance Grupo Adulto", "type": "dance", "note": "", "c": "wedance-adultos"}, {"day": 0, "start": "19:00", "end": "20:00", "name": "Aquafitness", "type": "fit", "note": "", "c": "aquafitness"}, {"day": 1, "start": "19:30", "end": "20:30", "name": "PowerHIIT", "type": "fit", "note": "Entrenamiento funcional", "c": "powerhiit"}, {"day": 2, "start": "19:00", "end": "20:00", "name": "Aquafitness", "type": "fit", "note": "", "c": "aquafitness"}, {"day": 3, "start": "19:30", "end": "20:30", "name": "PowerHIIT", "type": "fit", "note": "Entrenamiento funcional", "c": "powerhiit"}, {"day": 0, "start": "20:00", "end": "21:00", "name": "Aquafitness", "type": "fit", "note": "", "c": "aquafitness"}, {"day": 1, "start": "20:30", "end": "21:30", "name": "Fitdance", "type": "dance", "note": "Clase dirigida", "c": "fitdance"}, {"day": 2, "start": "20:00", "end": "21:00", "name": "Aquafitness", "type": "fit", "note": "", "c": "aquafitness"}, {"day": 3, "start": "20:30", "end": "21:30", "name": "Fitdance", "type": "dance", "note": "Clase dirigida", "c": "fitdance"}]</script>
 <script src="assets/js/today.js?v=1" defer></script>
+<script src="assets/js/menu.js?v=1" defer></script>
 </body>
 </html>

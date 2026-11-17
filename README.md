@@ -14,6 +14,7 @@ DESIGN.md               Reglas de diseño (colores, tipografía, espaciado, comp
 assets/css/site.css     Estilos
 assets/css/fonts.css    Fuentes servidas desde la propia web (assets/fonts/)
 assets/js/today.js      Panel «Hoy en el estudio» (lee el horario de #schedule-data)
+assets/js/menu.js       Menú hamburguesa en el móvil
 ```
 
 El horario está dos veces: en la tabla HTML y en el JSON `#schedule-data` que usa el panel «Hoy». Si cambia una clase, hay que actualizar los dos.
