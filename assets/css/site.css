@@ -229,6 +229,9 @@ address { font-style: normal; }
 .where .label { margin-bottom: 10px; }
 
 /* Legal */
+.back { margin: 0 0 18px; }
+.back-end { margin: 48px 0 0; padding-top: 20px; border-top: 1px solid var(--rule); max-width: none; }
+.back-link { display: inline-flex; gap: 8px; font-weight: 600; text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 2px; }
 .prose > * { max-width: 68ch; }
 .prose h2 { font: 400 32px/1.1 var(--display); text-transform: uppercase; margin: 40px 0 10px; }
 .prose h2:first-child { margin-top: 0; }

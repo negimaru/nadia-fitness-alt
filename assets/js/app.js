@@ -361,6 +361,17 @@
   setupTheme();
   setupBurger();
   setupForm();
+
+  // "Volver" on legal pages: go back if we came from this site, otherwise the link's href (home)
+  Array.prototype.forEach.call(document.querySelectorAll('[data-back]'), function (a) {
+    a.addEventListener('click', function (e) {
+      var ref = document.referrer;
+      if (ref && ref.indexOf(location.origin) === 0 && ref !== location.href && history.length > 1) {
+        e.preventDefault();
+        history.back();
+      }
+    });
+  });
   // Re-apply a #hash scroll once the rendered content exists (e.g. /clases/#powerhiit)
   if (location.hash) { var target = document.getElementById(location.hash.slice(1)); if (target) target.scrollIntoView(); }
 })();
