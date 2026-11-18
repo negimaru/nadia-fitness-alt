@@ -85,7 +85,7 @@
     }).join('');
     slot.innerHTML =
       '<div class="wrap band-in">' +
-      '<a class="brand" href="' + BASE + '"><img src="' + BASE + 'assets/img/logo.png" alt="' + S.name + ', inicio" width="110" height="60"></a>' +
+      '<a class="brand" href="' + BASE + '"><img src="' + BASE + 'assets/img/logo-280.webp" srcset="' + BASE + 'assets/img/logo-140.webp 140w, ' + BASE + 'assets/img/logo-200.webp 200w, ' + BASE + 'assets/img/logo-280.webp 280w, ' + BASE + 'assets/img/logo-340.webp 340w, ' + BASE + 'assets/img/logo-400.webp 400w" sizes="95px" alt="' + S.name + ', inicio" width="110" height="60"></a>' +
       '<nav class="nav" aria-label="Principal">' +
       '<button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span><span></span></button>' +
       '<ul id="menu">' + items + '<li class="menu-phone"><a href="' + LINKS.tel + '">' + S.phone + '</a></li></ul></nav>' +
@@ -98,7 +98,7 @@
     var pages = [['', 'Inicio']].concat(NAV).map(function (n) { return '<li><a href="' + BASE + n[0] + '">' + n[1] + '</a></li>'; }).join('');
     slot.innerHTML =
       '<div class="wrap foot-grid">' +
-      '<div><img class="foot-logo" src="' + BASE + 'assets/img/logo.png" alt="" width="110" height="60" loading="lazy"><p>' + S.tagline + '.</p>' +
+      '<div><img class="foot-logo" src="' + BASE + 'assets/img/logo-280.webp" srcset="' + BASE + 'assets/img/logo-140.webp 140w, ' + BASE + 'assets/img/logo-200.webp 200w, ' + BASE + 'assets/img/logo-280.webp 280w, ' + BASE + 'assets/img/logo-340.webp 340w, ' + BASE + 'assets/img/logo-400.webp 400w" sizes="95px" alt="" width="110" height="60" loading="lazy"><p>' + S.tagline + '.</p>' +
       '<p><a href="' + S.instagram + '" rel="noopener">' + S.instagramHandle + '</a> · <a href="' + S.facebook + '" rel="noopener">Facebook</a></p></div>' +
       '<div><h2 class="label">Contacto</h2><p><a href="' + LINKS.tel + '">' + S.phone + '</a><br><a href="' + LINKS.whatsapp + '" target="_blank" rel="noopener">WhatsApp</a></p>' +
       '<p>' + S.street + '<br>' + BINDS.city + '</p></div>' +
@@ -140,7 +140,7 @@
   R['class-detail'] = function (slot) {
     NF.classes.forEach(function (c, i) {
       var media = el('img', { 'class': 'cd-photo' + (c.placeholder ? ' is-placeholder' : ''), src: BASE + 'assets/img/' + c.photo + (c.placeholder ? '?v=1' : ''), alt: c.placeholder ? '' : c.photoAlt,
-        srcset: c.placeholder ? null : BASE + 'assets/img/' + c.photo.replace('.webp', '-480.webp') + ' 480w, ' + BASE + 'assets/img/' + c.photo + ' 840w', sizes: c.placeholder ? null : '(max-width: 860px) 100vw, 420px', width: c.placeholder ? 1200 : 840, height: c.placeholder ? 750 : 840, loading: i > 1 ? 'lazy' : null });
+        srcset: c.placeholder ? null : BASE + 'assets/img/' + c.photo.replace('.webp', '-480.webp') + ' 480w, ' + BASE + 'assets/img/' + c.photo.replace('.webp', '-640.webp') + ' 640w, ' + BASE + 'assets/img/' + c.photo + ' 840w', sizes: c.placeholder ? null : '(max-width: 860px) 100vw, 420px', width: c.placeholder ? 1200 : 840, height: c.placeholder ? 750 : 840, loading: i > 1 ? 'lazy' : null });
       slot.appendChild(el('article', { 'class': 'cd', id: c.id }, [
         el('span', { 'class': 'cd-num', text: (i + 1 < 10 ? '0' : '') + (i + 1) }),
         el('div', { 'class': 'cd-main' }, [
